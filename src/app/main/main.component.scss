@@ -1,0 +1,64 @@
+.list {
+  margin: 2px auto;
+  position: relative;
+  width: fit-content;
+
+  &:hover {
+    transform: scale(1.01);
+
+    & .delete {
+      opacity: 1;
+    }
+  }
+}
+
+button {
+  background-color: rgb(41, 41, 41);
+  border-radius: 3px;
+  width: 120px;
+  height: 30px;
+  color: white;
+  border: 0;
+  font-size: 16px;
+  margin-left: 40px;
+
+  &:hover:enabled {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+}
+
+input {
+  width: 400px;
+  margin-left: 3px;
+}
+
+.delete {
+  opacity: 0;
+  cursor: pointer;
+  padding-left: 5px;
+}
+
+.options {
+  position: absolute;
+}
+
+.filter {
+  list-style: none;
+
+  & .label {
+    margin-left: 22px;
+    font-style: italic;
+    border-bottom: 1px solid grey;
+  }
+}
+
+.check {
+  & p {
+    margin: 0;
+  }
+}
+
+mat-radio-button {
+  display: block;
+}

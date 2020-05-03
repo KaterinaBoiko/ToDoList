@@ -1,0 +1,25 @@
+<div class="options">
+    <button (click)="openDialogAddToDo()">Create ToDo</button>
+    <ul class="filter">
+        <span class="label">Filter by author name</span>
+        <li *ngFor="let item of userIdAndBoolean; index as i" class="check">
+            <mat-checkbox [(ngModel)]="userIdAndBoolean[i][1]" (change)="filterToDos()">
+                <p> {{ getToDoAuthorName(userIdAndBoolean[i][0]) }} </p>
+            </mat-checkbox>
+        </li>
+        <span class="label">Filter by readiness</span>
+        <li class="check">
+            <mat-radio-group>
+                <mat-radio-button value="all" (change)="filterToDos($event.value)" checked>All</mat-radio-button>
+                <mat-radio-button value="done" (change)="filterToDos($event.value)">Done</mat-radio-button>
+                <mat-radio-button value="incomplete" (change)="filterToDos($event.value)">Incomplete</mat-radio-button>
+            </mat-radio-group>
+        </li>
+    </ul>
+</div>
+<div *ngFor="let item of toDos" class="list">
+    <mat-checkbox [(ngModel)]="item.completed" (change)="saveChanges()">
+        <input class="checktext" [(ngModel)]="item.title" (blur)="saveChanges()">
+    </mat-checkbox>
+    <i class="fas fa-trash delete" (click)="deleteItem(item.id)"></i>
+</div>
