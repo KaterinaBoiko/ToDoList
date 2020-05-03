@@ -17,7 +17,8 @@ export class DataService {
     if (!localStorage.getItem("toDos"))
       this.setInitialToDos().subscribe(
         (data) => {
-          this.saveToDos(data);
+          this.saveToDos(data.map((x) => ({ ...x, createdAt: new Date() })));
+          console.log(JSON.parse(localStorage.getItem("toDos")));
         },
         (error) => console.log(error)
       );

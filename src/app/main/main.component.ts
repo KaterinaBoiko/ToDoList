@@ -64,21 +64,26 @@ export class MainComponent implements OnInit {
       width: "400px",
     });
 
+    console.log(this.getNextId());
+
     dialogRef.beforeClosed().subscribe((data) => {
-      // if (!data) return;
-      // const { title, width, length, height, payload } = data;
-      // const load = new Load(
-      //   title,
-      //   this.currShipper._id,
-      //   { width: width, length: length, height: height },
-      //   payload
-      // );
-      // this.shipperService
-      //   .addLoad(load)
-      //   .then(() => this.createdLoads.push(load))
-      //   .catch((error) => this.openSnackBar(error.error));
+      if (data) {
+        this.getToDos(); //????
+        this.toDos.unshift({
+          ...data,
+          createdAt: new Date(),
+          completed: false,
+          userId: this.dataService.currentUser.id,
+          id: this.getNextId(),
+        });
+        this.saveChanges();
+      }
       console.log(data);
     });
+  }
+
+  getNextId(): number {
+    return Math.max(...this.toDos.map((x) => x.id)) + 1;
   }
 
   saveChanges(): void {
