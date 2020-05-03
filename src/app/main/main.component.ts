@@ -17,10 +17,14 @@ export class MainComponent implements OnInit {
   constructor(private dataService: DataService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
+    this.getToDos();
+    this.setUserIdAndBoolean();
+  }
+
+  getToDos(): void {
     this.dataService.getToDos().subscribe((data: IToDoItem[]) => {
       this.toDos = data;
     });
-    this.setUserIdAndBoolean();
   }
 
   getToDoAuthorName(id: number): string {
@@ -40,14 +44,17 @@ export class MainComponent implements OnInit {
   }
 
   filterToDos(readiness?: string): void {
+    this.getToDos();
+
+    this.toDos = this.toDos.filter(
+      (x) => !!this.userIdAndBoolean.find((z) => z[0] == x.userId && z[1])
+    );
+
     if (this.userIdAndBoolean.every((x) => !x[1])) {
-      this.dataService.getToDos().subscribe((data: IToDoItem[]) => {
-        this.toDos = data;
-      });
+      this.getToDos();
     }
 
     if (readiness == "done") this.toDos = this.toDos.filter((x) => x.completed);
-    if (readiness == "all") this.toDos = this.toDos;
     if (readiness == "incomplete")
       this.toDos = this.toDos.filter((x) => !x.completed);
   }
