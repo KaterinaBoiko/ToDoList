@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, BehaviorSubject } from "rxjs";
 import { IToDoItem } from "../interfaces/toDoItem";
 import { users } from "../data/users";
-import { IUser } from "../interfaces/User";
+import { IUser } from "../interfaces/user";
 
 @Injectable({
   providedIn: "root",

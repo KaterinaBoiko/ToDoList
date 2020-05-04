@@ -3,7 +3,6 @@ import { DataService } from "../services/data.service";
 import { IToDoItem } from "../interfaces/toDoItem";
 import { MatDialog } from "@angular/material/dialog";
 import { AddTodoitemDialogComponent } from "../add-todoitem-dialog/add-todoitem-dialog.component";
-import { IUser } from "../interfaces/User";
 
 @Component({
   selector: "app-main",
