@@ -15,9 +15,10 @@ import { MatInputModule } from "@angular/material/input";
 
 import { MainComponent } from "./main/main.component";
 import { AddTodoitemDialogComponent } from "./add-todoitem-dialog/add-todoitem-dialog.component";
+import { SearchPipe } from './pipes/search.pipe';
 
 @NgModule({
-  declarations: [AppComponent, MainComponent, AddTodoitemDialogComponent],
+  declarations: [AppComponent, MainComponent, AddTodoitemDialogComponent, SearchPipe],
   imports: [
     BrowserModule,
     AppRoutingModule,

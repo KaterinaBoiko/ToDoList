@@ -3,4 +3,5 @@ export interface IToDoItem {
   userId: number;
   title: string;
   completed: boolean;
+  createdAt: Date;
 }

@@ -12,19 +12,24 @@ import { IUser } from "../interfaces/User";
 })
 export class MainComponent implements OnInit {
   toDos: IToDoItem[];
+  toDosOnPage: IToDoItem[];
   userIdAndBoolean: [number, boolean][] = [];
+  filterByReadiness: string = "all";
+  sortBy: string = "descDate";
+  search: string;
 
   constructor(private dataService: DataService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.getToDos();
+    this.dataService.getToDos().subscribe((data: IToDoItem[]) => {
+      this.toDos = data;
+      this.getToDos();
+    });
     this.setUserIdAndBoolean();
   }
 
   getToDos(): void {
-    this.dataService.getToDos().subscribe((data: IToDoItem[]) => {
-      this.toDos = data;
-    });
+    this.toDosOnPage = this.toDos;
   }
 
   getToDoAuthorName(id: number): string {
@@ -43,10 +48,10 @@ export class MainComponent implements OnInit {
       .map((x) => [x.id, false]);
   }
 
-  filterToDos(readiness?: string): void {
+  filterToDos(): void {
     this.getToDos();
 
-    this.toDos = this.toDos.filter(
+    this.toDosOnPage = this.toDos.filter(
       (x) => !!this.userIdAndBoolean.find((z) => z[0] == x.userId && z[1])
     );
 
@@ -54,9 +59,30 @@ export class MainComponent implements OnInit {
       this.getToDos();
     }
 
-    if (readiness == "done") this.toDos = this.toDos.filter((x) => x.completed);
-    if (readiness == "incomplete")
-      this.toDos = this.toDos.filter((x) => !x.completed);
+    if (this.filterByReadiness == "done")
+      this.toDosOnPage = this.toDosOnPage.filter((x) => x.completed);
+    if (this.filterByReadiness == "incomplete")
+      this.toDosOnPage = this.toDosOnPage.filter((x) => !x.completed);
+
+    this.sortToDos();
+  }
+
+  sortToDos(): void {
+    if (this.sortBy == "descDate")
+      this.toDosOnPage.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+
+    if (this.sortBy == "ascDate")
+      this.toDosOnPage.sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1));
+
+    if (this.sortBy == "alphTitle")
+      this.toDosOnPage.sort((a, b) =>
+        a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1
+      );
+
+    if (this.sortBy == "unalphTitle")
+      this.toDosOnPage.sort((a, b) =>
+        a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1
+      );
   }
 
   openDialogAddToDo() {
@@ -64,11 +90,8 @@ export class MainComponent implements OnInit {
       width: "400px",
     });
 
-    console.log(this.getNextId());
-
     dialogRef.beforeClosed().subscribe((data) => {
       if (data) {
-        this.getToDos(); //????
         this.toDos.unshift({
           ...data,
           createdAt: new Date(),
@@ -77,8 +100,8 @@ export class MainComponent implements OnInit {
           id: this.getNextId(),
         });
         this.saveChanges();
+        this.filterToDos();
       }
-      console.log(data);
     });
   }
 
