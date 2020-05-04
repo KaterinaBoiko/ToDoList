@@ -60,6 +60,7 @@ export class MainComponent implements OnInit {
 
     if (this.filterByReadiness == "done")
       this.toDosOnPage = this.toDosOnPage.filter((x) => x.completed);
+
     if (this.filterByReadiness == "incomplete")
       this.toDosOnPage = this.toDosOnPage.filter((x) => !x.completed);
 
