@@ -7,7 +7,6 @@
     "build": "ng build",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test": "mocha",
     "postinstall": "ng build --aot --prod"
   },
   "private": true,
